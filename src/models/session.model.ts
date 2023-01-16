@@ -4,6 +4,7 @@ interface ISession extends Document {
   sessionId: string;
   userId: string;
   isPersistent: boolean;
+  keyHash?: string;
   ipAddress: string;
   signedOutAt?: Date;
   isActive(): boolean;
@@ -23,6 +24,10 @@ const sessionSchema = new Schema({
   isPersistent: {
     type: Boolean,
     required: true,
+  },
+  keyHash: {
+    type: String,
+    required: false,
   },
   ipAddress: String,
   signedOutAt: Date,

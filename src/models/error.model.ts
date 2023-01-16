@@ -13,6 +13,7 @@ export enum CauldronErrorCodes {
   INVALID_CREDENTIALS = 'auth/invalid-credentials',
 
   // General
+  INTERNAL = 'internal',
   INVALID_PARAMETER = 'invalid-parameter',
   UNAUTHORIZED = 'unauthorized',
   UNKNOWN = 'unknown',
@@ -25,6 +26,7 @@ export const CauldronErrorStatus = {
   'auth/invalid-credentials': 401,
 
   // General
+  internal: 500,
   'invalid-parameter': 400,
   unauthorized: 401,
   unknown: 500,

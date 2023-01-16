@@ -2,6 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import { setupDatabaseConnection } from './db';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 
 import accountRoute from './routes/account.route';
 
@@ -12,6 +13,7 @@ const port = 5000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 const sess = {
   secret: process.env.EXPRESS_SESSION_SECRET,
