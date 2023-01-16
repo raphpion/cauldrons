@@ -1,2 +1,3 @@
-# cauldrons-api
- Express.js REST API for the Cauldrons infrastructure.
+# Cauldrons API
+
+Express.js REST API for the Cauldrons infrastructure.

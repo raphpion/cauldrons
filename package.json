@@ -1,0 +1,15 @@
+{
+  "name": "cauldrons-api",
+  "version": "0.0.1",
+  "description": "Express.js REST API for the Cauldrons infrastructure.",
+  "author": "Raphaël Pion <raph.pion@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "tsc",
+    "dev": "nodemon"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
