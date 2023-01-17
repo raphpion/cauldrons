@@ -7,9 +7,12 @@ import { createSession, signOut } from '../services/session.service';
 export async function handleCreateSession(req: RequestWithSessionData, res: Response, next: NextFunction) {
   try {
     const { userId } = req.data || undefined;
-    const { persist } = req.body || req.data || undefined;
+
+    let persist = false;
+    if (req.body.persist) persist = true;
+    else if (req.data && req.data.persist) persist = true;
+
     if (userId === undefined) throw new CauldronError('Missing parameter in session handler: userId', CauldronErrorCodes.INTERNAL);
-    if (persist === undefined) throw new CauldronError('Missing parameter in session handler: persist', CauldronErrorCodes.INTERNAL);
 
     const key = persist ? randomBytes(256).toString('hex') : undefined;
     const session = await createSession(userId, req.socket.remoteAddress, key);
