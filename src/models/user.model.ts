@@ -10,12 +10,18 @@ interface IUser extends Document {
   updatedBy?: string;
   updatedAt?: Date;
   getPersonalProfile: () => IUserPersonalProfile;
+  getPublicProfile: () => IUserPublicProfile;
 }
 
 interface IUserPersonalProfile {
   userId: string;
   username: string;
   email: string;
+}
+
+interface IUserPublicProfile {
+  userId: string;
+  username: string;
 }
 
 const userSchema = new Schema({
@@ -61,6 +67,13 @@ userSchema.methods.getPersonalProfile = function (): IUserPersonalProfile {
     userId: this.userId,
     username: this.username,
     email: this.email,
+  };
+};
+
+userSchema.methods.getPublicProfile = function (): IUserPublicProfile {
+  return {
+    userId: this.userId,
+    username: this.username,
   };
 };
 
