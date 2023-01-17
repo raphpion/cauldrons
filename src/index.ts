@@ -1,12 +1,13 @@
 import express from 'express';
-import session from 'express-session';
-import { setupDatabaseConnection } from './db';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import * as dotenv from 'dotenv';
+import { setupDatabaseConnection } from './db';
 
 import accountRoute from './routes/account.route';
 
-require('dotenv').config();
+dotenv.config();
 
 const app = express();
 const port = 5000;
