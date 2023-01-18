@@ -1,12 +1,24 @@
-import mongoose from 'mongoose';
+import { DataSource } from 'typeorm';
+import 'reflect-metadata';
+import * as dotenv from 'dotenv';
 
-export async function setupDatabaseConnection() {
-  const dbUrl = process.env.MONGO_DATABASE_URL;
-  const dbPort = process.env.MONGO_DATABASE_PORT;
-  const dbUser = process.env.MONGO_DATABASE_USER;
-  const dbPassword = process.env.MONGO_DATABASE_PASSWORD;
-  const dbName = process.env.MONGO_DATABASE_NAME;
+import Session from './models/session.model';
+import User from './models/user.model';
 
-  mongoose.set('strictQuery', false);
-  return mongoose.connect(`mongodb://${dbUser}:${dbPassword}@${dbUrl}:${dbPort}/?authMechanism=DEFAULT`, { dbName });
-}
+dotenv.config();
+
+const db = new DataSource({
+  type: 'postgres',
+  host: process.env.POSTGRES_URL,
+  port: parseInt(`${process.env.POSTGRES_PORT}`),
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DB,
+  synchronize: true,
+  logging: false,
+  entities: [Session, User],
+  subscribers: [],
+  migrations: [],
+});
+
+export default db;

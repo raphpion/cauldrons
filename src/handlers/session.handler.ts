@@ -6,7 +6,8 @@ import { createSession, signOut } from '../services/session.service';
 
 export async function handleCreateSession(req: RequestWithSessionData, res: Response, next: NextFunction) {
   try {
-    const { userId } = req.data || undefined;
+    console.log(req.data);
+    const { userId } = req.data;
 
     let persist = false;
     if (req.body.persist) persist = true;
