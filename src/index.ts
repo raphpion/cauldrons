@@ -1,9 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import session from 'express-session';
 import * as dotenv from 'dotenv';
-import { setupDatabaseConnection } from './db';
+import session from 'express-session';
+
+import db from './db';
 
 import accountRoute from './routes/account.route';
 import userRoute from './routes/user.route';
@@ -40,13 +41,13 @@ app.get('/', (req, res) => {
 app.use('/account', accountRoute);
 app.use('/users', userRoute);
 
-setupDatabaseConnection()
+db.initialize()
   .then(() => {
-    console.log('Connected to database successfully!');
+    console.log('Succesfully connected to database!');
     app.listen(port, () => {
       console.log(`Server running at http://localhost:${port}`);
     });
   })
-  .catch(() => {
-    console.error('Could not connect to database!');
+  .catch(err => {
+    console.error(err);
   });

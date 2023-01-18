@@ -1,8 +1,12 @@
-version: '6.0.1'
+version: '3.1'
 services:
-  mongodb:
-    image: mongo
+  postgres:
+    image: postgres:latest
     ports:
-      - 27017:27017
+      - 5432:5432
     env_file:
-      - .mongodb.env
+      - .postgres.env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:

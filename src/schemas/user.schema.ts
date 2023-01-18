@@ -2,6 +2,7 @@ import Joi from 'joi';
 
 interface IUpdateUserPayload {
   password?: string;
+  passwordHash?: string;
 }
 
 export const createUserSchema = Joi.object({
