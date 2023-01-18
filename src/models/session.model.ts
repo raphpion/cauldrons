@@ -1,42 +1,34 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import { Column, Entity, Generated, PrimaryGeneratedColumn } from 'typeorm';
 
-interface ISession extends Document {
+@Entity()
+export default class Session {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ unique: true })
+  @Generated('uuid')
   sessionId: string;
+
+  @Column()
   userId: string;
+
+  @Column()
   isPersistent: boolean;
+
+  @Column({ nullable: true })
   keyHash?: string;
+
+  @Column()
   ipAddress: string;
+
+  @Column({ nullable: true })
   signedOutAt?: Date;
-  isActive(): boolean;
-  signOut(): void;
+
+  isActive() {
+    return this.signedOutAt !== undefined;
+  }
+
+  signOut() {
+    this.signedOutAt = new Date();
+  }
 }
-
-const sessionSchema = new Schema({
-  sessionId: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  userId: {
-    type: String,
-    required: true,
-  },
-  isPersistent: {
-    type: Boolean,
-    required: true,
-  },
-  keyHash: {
-    type: String,
-    required: false,
-  },
-  ipAddress: String,
-  signedOutAt: Date,
-});
-
-sessionSchema.methods.isActive = function (): boolean {
-  return this.signedOutAt !== null;
-};
-
-if (mongoose.models.Session) mongoose.deleteModel('Session');
-export default mongoose.model<ISession>('Session', sessionSchema);
-export type { ISession };

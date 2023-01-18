@@ -1,16 +1,49 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import { Column, CreateDateColumn, Entity, Generated, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-interface IUser extends Document {
+@Entity()
+export default class User {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ unique: true })
+  @Generated('uuid')
   userId: string;
-  username: string;
+
+  @Column({ unique: true })
   email: string;
-  password?: string;
-  createdBy: string;
+
+  @Column({ unique: true })
+  username: string;
+
+  @Column()
+  passwordHash: string;
+
+  @CreateDateColumn()
   createdAt: Date;
-  updatedBy?: string;
+
+  @Column({ nullable: true })
+  createdBy: string;
+
+  @UpdateDateColumn({ nullable: true })
   updatedAt?: Date;
-  getPersonalProfile: () => IUserPersonalProfile;
-  getPublicProfile: () => IUserPublicProfile;
+
+  @Column({ nullable: true })
+  updatedBy?: string;
+
+  getPersonalProfile(): IUserPersonalProfile {
+    return {
+      userId: this.userId,
+      username: this.username,
+      email: this.email,
+    };
+  }
+
+  getPublicProfile(): IUserPublicProfile {
+    return {
+      userId: this.userId,
+      username: this.username,
+    };
+  }
 }
 
 interface IUserPersonalProfile {
@@ -24,59 +57,4 @@ interface IUserPublicProfile {
   username: string;
 }
 
-const userSchema = new Schema({
-  userId: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: false,
-  },
-  createdBy: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    required: true,
-  },
-  updatedBy: {
-    type: String,
-    required: false,
-  },
-  updatedAt: {
-    type: Date,
-    required: false,
-  },
-});
-
-userSchema.methods.getPersonalProfile = function (): IUserPersonalProfile {
-  return {
-    userId: this.userId,
-    username: this.username,
-    email: this.email,
-  };
-};
-
-userSchema.methods.getPublicProfile = function (): IUserPublicProfile {
-  return {
-    userId: this.userId,
-    username: this.username,
-  };
-};
-
-if (mongoose.models.User) mongoose.deleteModel('User');
-export default mongoose.model<IUser>('User', userSchema);
-export type { IUser, IUserPersonalProfile };
+export type { IUserPersonalProfile, IUserPublicProfile };
