@@ -66,7 +66,6 @@ export async function updateUser(userId: string, payload: IUpdateUserPayload, ma
 
   user.roles = Promise.resolve(fetchedRoles);
   db.getRepository(User).merge(user, updates);
-
   await db.getRepository(User).save(user);
 }
 

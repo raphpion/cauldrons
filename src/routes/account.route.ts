@@ -1,19 +1,29 @@
 import express from 'express';
-import { handleSignIn, handleSignUp } from '../handlers/account.handler';
+import {
+  handleCreateMyProfile,
+  handleGetMyProfile,
+  handleUpdateMyProfile,
+  handleSignIn,
+  handleSignUp,
+  handleDeleteMyProfile,
+} from '../handlers/account.handler';
 import { handleCreateSession, handleSignOut } from '../handlers/session.handler';
 import { errorHandler } from '../middleware/error.middleware';
+import { validateSession } from '../middleware/session.middleware';
 import { emailAndUsernameAvailable } from '../middleware/user.middleware';
 import { validate } from '../middleware/validation.middleware';
-import { signInSchema, signUpSchema } from '../schemas/account.schema';
+import { createMyProfileSchema, signInSchema, signUpSchema, updateMyProfileSchema } from '../schemas/account.schema';
 
 const router = express.Router();
+
+router.get('/profile', validateSession, handleGetMyProfile);
+router.post('/profile', validate(createMyProfileSchema), validateSession, handleCreateMyProfile);
+router.put('/profile', validate(updateMyProfileSchema), validateSession, handleUpdateMyProfile);
+router.delete('/profile', validateSession, handleDeleteMyProfile);
 
 router.post('/sign/up', validate(signUpSchema), emailAndUsernameAvailable, handleSignUp, handleCreateSession);
 router.post('/sign/in', validate(signInSchema), handleSignIn, handleCreateSession);
 router.post('/sign/out', handleSignOut);
-// router.get('/profile', validateSession, handleGetProfile);
-// router.post('/password/recover' => envoyer courriel de reset password);
-// router.post('/password/reset' => effectuer le reset password);
 
 router.use(errorHandler);
 

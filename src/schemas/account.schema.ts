@@ -1,5 +1,15 @@
 import Joi from 'joi';
 
+export const createMyProfileSchema = Joi.object({
+  avatarUrl: Joi.string().uri(),
+  bio: Joi.string(),
+});
+
+export const updateMyProfileSchema = Joi.object({
+  avatarUrl: Joi.string().uri(),
+  bio: Joi.string(),
+});
+
 export const signUpSchema = Joi.object({
   username: Joi.string().min(3).required(),
   email: Joi.string().email().required(),

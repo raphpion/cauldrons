@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import Role, { RoleCodes } from '../models/role.model';
+import { RoleCodes } from '../models/role.model';
 
 interface IUpdateUserPayload {
   roles?: RoleCodes[];
