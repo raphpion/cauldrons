@@ -34,7 +34,8 @@ export async function handleGetMyProfile(req: CauldronRequest, res: Response, ne
     const { user } = req.data;
     const profile = await user.profile;
     if (profile === null) throw new CauldronError(`Profile of User ${user.username} could not be found`, CauldronErrorCodes.NOT_FOUND);
-    res.status(200).json(profile);
+    const publicProfile = await profile.getPublicProfile();
+    res.status(200).json(publicProfile);
   } catch (error) {
     next(error);
   }

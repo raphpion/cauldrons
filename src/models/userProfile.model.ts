@@ -11,11 +11,11 @@ export default class UserProfile {
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
   user: Promise<User>;
 
-  @Column({ length: 2048 })
-  avatarUrl: string;
+  @Column({ length: 2048, nullable: true })
+  avatarUrl?: string;
 
-  @Column({ type: 'text' })
-  bio: string;
+  @Column({ type: 'text', nullable: true })
+  bio?: string;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'createdBy' })
@@ -30,4 +30,21 @@ export default class UserProfile {
 
   @UpdateDateColumn({ nullable: true })
   updatedOn?: Date;
+
+  async getPublicProfile(): Promise<IUserProfile> {
+    const user = await this.user;
+    return {
+      username: user.username,
+      avatarUrl: this.avatarUrl,
+      bio: this.bio,
+    };
+  }
 }
+
+interface IUserProfile {
+  username: string;
+  avatarUrl: string;
+  bio: string;
+}
+
+export type { IUserProfile };

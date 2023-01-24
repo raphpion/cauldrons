@@ -16,4 +16,5 @@ export default class Role {
 export enum RoleCodes {
   SUPER_USER = 'super-user',
   USER_MANAGEMENT = 'user-management',
+  PROFILE_MANAGEMENT = 'profile-management',
 }

@@ -1,7 +1,7 @@
 import express from 'express';
 import { handleCreateUser, handleDeleteUser, handleGetUserById, handleGetUsers, handleUpdateUser } from '../handlers/user.handler';
 import { errorHandler } from '../middleware/error.middleware';
-import { requesterHasRole } from '../middleware/role.middleware';
+import { hasRole } from '../middleware/role.middleware';
 import { emailAndUsernameAvailable } from '../middleware/user.middleware';
 import { validate } from '../middleware/validation.middleware';
 import { RoleCodes } from '../models/role.model';
@@ -9,7 +9,7 @@ import { createUserSchema, updateUserSchema } from '../schemas/user.schema';
 
 const router = express.Router();
 
-router.use(requesterHasRole(RoleCodes.USER_MANAGEMENT));
+router.use(hasRole(RoleCodes.USER_MANAGEMENT));
 
 router.get('/', handleGetUsers);
 router.get('/:userId', handleGetUserById);
