@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Response } from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import * as dotenv from 'dotenv';
@@ -8,6 +8,7 @@ import db from './db';
 
 import accountRoute from './routes/account.route';
 import userRoute from './routes/user.route';
+import { CauldronRequest } from './models/request.model';
 
 dotenv.config();
 
@@ -34,7 +35,7 @@ if (app.get('env') === 'production') {
 
 app.use(session(sess));
 
-app.get('/', (req, res) => {
+app.get('/', (req: CauldronRequest, res: Response) => {
   res.status(200).json({ status: 'OK' });
 });
 
@@ -43,11 +44,17 @@ app.use('/users', userRoute);
 
 db.initialize()
   .then(() => {
-    console.log('Succesfully connected to database!');
     app.listen(port, () => {
-      console.log(`Server running at http://localhost:${port}`);
+      console.log('\nWelcome to Cauldrons API!');
+
+      console.log('\nActive services:');
+      console.table([
+        { name: 'API', url: `http://localhost:${port}` },
+        { name: 'Postgres', url: `http://${process.env.POSTGRES_URL}:${process.env.POSTGRES_PORT}` },
+      ]);
     });
   })
   .catch(err => {
+    console.error('Could not connect to Postgres Database! Did you forget to docker-compose?');
     console.error(err);
   });

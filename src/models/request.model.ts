@@ -1,10 +1,11 @@
 import { Request } from 'express';
+import User from './user.model';
 
-interface RequestWithSessionData extends Request {
+interface CauldronRequest extends Request {
   data?: {
-    userId?: string;
+    user?: User;
     persist?: boolean;
   };
 }
 
-export type { RequestWithSessionData };
+export type { CauldronRequest };

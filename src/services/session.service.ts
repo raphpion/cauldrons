@@ -1,26 +1,22 @@
 import { hash } from 'bcryptjs';
-import { randomUUID } from 'crypto';
 import db from '../db';
 import Session from '../models/session.model';
+import User from '../models/user.model';
 
 export async function getSessionById(sessionId: string): Promise<Session | null> {
   return db.getRepository(Session).findOneBy({ sessionId });
 }
 
-export async function createSession(userId: string, ipAddress: string, key?: string): Promise<Session> {
-  const sessionId = randomUUID();
+export async function createSession(user: User, ipAddress: string, key?: string): Promise<Session> {
   const keyHash = key !== undefined ? await hash(key, 10) : undefined;
-
   const session = db.getRepository(Session).create({
-    sessionId,
-    userId,
     ...(key !== undefined ? { isPersistent: true, keyHash } : { isPersistent: false }),
     ipAddress,
   });
-
+  session.user = user;
   return db.getRepository(Session).save(session);
 }
 
-export async function signOut(sessionId: string) {
-  return db.getRepository(Session).update({ sessionId }, { signedOutAt: new Date() });
+export async function signOutSession(session: Session) {
+  return db.getRepository(Session).update({ id: session.id }, { signedOutAt: new Date() });
 }

@@ -1,13 +1,27 @@
-import { Column, CreateDateColumn, Entity, Generated, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import Session from './session.model';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Generated,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import Role from './role.model';
 
 @Entity()
 export default class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  readonly id: number;
 
-  @Column({ unique: true })
+  @Column({ unique: true, type: 'uuid' })
   @Generated('uuid')
-  userId: string;
+  readonly userId: string;
 
   @Column({ unique: true })
   email: string;
@@ -18,43 +32,59 @@ export default class User {
   @Column()
   passwordHash: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  @Column()
+  confirmed: boolean;
 
-  @Column({ nullable: true })
-  createdBy: string;
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'createdBy' })
+  createdBy: Promise<User>;
+
+  @CreateDateColumn()
+  createdOn: Date;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'updatedBy' })
+  updatedBy?: Promise<User>;
 
   @UpdateDateColumn({ nullable: true })
-  updatedAt?: Date;
+  updatedOn?: Date;
 
-  @Column({ nullable: true })
-  updatedBy?: string;
+  @OneToMany(() => Session, session => session.user)
+  sessions: Session[];
 
-  getPersonalProfile(): IUserPersonalProfile {
+  @ManyToMany(() => Role)
+  @JoinTable({
+    name: 'user_role',
+    joinColumns: [{ name: 'userId', referencedColumnName: 'id' }],
+    inverseJoinColumns: [{ name: 'roleId', referencedColumnName: 'id' }],
+  })
+  roles: Promise<Role[]>;
+
+  async getUserInfo(): Promise<IUserInfo> {
+    const [createdBy, updatedBy] = await Promise.all([this.createdBy, this.updatedBy]);
+
     return {
       userId: this.userId,
-      username: this.username,
       email: this.email,
-    };
-  }
-
-  getPublicProfile(): IUserPublicProfile {
-    return {
-      userId: this.userId,
       username: this.username,
+      confirmed: this.confirmed,
+      createdOn: this.createdOn,
+      ...(updatedBy && this.updatedOn !== null && { updatedOn: this.updatedOn }),
+      ...(createdBy && { createdBy: createdBy.username }),
+      ...(updatedBy && { updatedBy: updatedBy.username }),
     };
   }
 }
 
-interface IUserPersonalProfile {
+interface IUserInfo {
   userId: string;
-  username: string;
   email: string;
-}
-
-interface IUserPublicProfile {
-  userId: string;
   username: string;
+  confirmed: boolean;
+  createdBy: string;
+  createdOn: Date;
+  updatedBy?: string;
+  updatedOn?: Date;
 }
 
-export type { IUserPersonalProfile, IUserPublicProfile };
+export type { IUserInfo };
