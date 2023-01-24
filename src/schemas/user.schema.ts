@@ -1,9 +1,11 @@
 import Joi from 'joi';
+import Role, { RoleCodes } from '../models/role.model';
 
 interface IUpdateUserPayload {
-  password?: string;
-  passwordHash?: string;
+  roles?: RoleCodes[];
 }
+
+interface IUpdateUserPayloadParsed {}
 
 export const createUserSchema = Joi.object({
   username: Joi.string().min(3).required(),
@@ -12,7 +14,7 @@ export const createUserSchema = Joi.object({
 });
 
 export const updateUserSchema = Joi.object({
-  password: Joi.string().min(6),
+  roles: Joi.array().items(Joi.string().custom(val => Object.values(RoleCodes).includes(val))),
 });
 
-export type { IUpdateUserPayload };
+export type { IUpdateUserPayload, IUpdateUserPayloadParsed };

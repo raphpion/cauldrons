@@ -15,6 +15,7 @@ export enum CauldronErrorCodes {
   // General
   INTERNAL = 'internal',
   INVALID_PARAMETER = 'invalid-parameter',
+  FORBIDDEN = 'forbidden',
   NOT_FOUND = 'not-found',
   UNAUTHORIZED = 'unauthorized',
   UNKNOWN = 'unknown',
@@ -29,6 +30,7 @@ export const CauldronErrorStatus = {
   // General
   internal: 500,
   'invalid-parameter': 400,
+  forbidden: 403,
   'not-found': 404,
   unauthorized: 401,
   unknown: 500,

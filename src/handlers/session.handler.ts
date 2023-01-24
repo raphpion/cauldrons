@@ -1,22 +1,25 @@
 import { randomBytes } from 'crypto';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
+import { getRequestSession } from '../helpers/session.helper';
 import CauldronError, { CauldronErrorCodes } from '../models/error.model';
-import { RequestWithSessionData } from '../models/request.model';
-import { createSession, signOut } from '../services/session.service';
+import { CauldronRequest } from '../models/request.model';
+import { createSession, signOutSession } from '../services/session.service';
 
-export async function handleCreateSession(req: RequestWithSessionData, res: Response, next: NextFunction) {
+export async function handleCreateSession(req: CauldronRequest, res: Response, next: NextFunction) {
   try {
-    console.log(req.data);
-    const { userId } = req.data;
+    const { user } = req.data;
+
+    const currentSession = await getRequestSession(req);
+    if (currentSession !== null) await signOutSession(currentSession);
 
     let persist = false;
     if (req.body.persist) persist = true;
     else if (req.data && req.data.persist) persist = true;
 
-    if (userId === undefined) throw new CauldronError('Missing parameter in session handler: userId', CauldronErrorCodes.INTERNAL);
+    if (user === undefined) throw new CauldronError('Missing parameter in session handler: user', CauldronErrorCodes.INTERNAL);
 
     const key = persist ? randomBytes(256).toString('hex') : undefined;
-    const session = await createSession(userId, req.socket.remoteAddress, key);
+    const session = await createSession(user, req.socket.remoteAddress, key);
     (req.session as any).sessionId = session.sessionId;
     req.session.cookie.maxAge = persist ? 7 * 24 * 60 * 60 * 1000 : null;
 
@@ -35,16 +38,17 @@ export async function handleCreateSession(req: RequestWithSessionData, res: Resp
   }
 }
 
-export async function handleSignOut(req: Request, res: Response, next: NextFunction) {
+export async function handleSignOut(req: CauldronRequest, res: Response, next: NextFunction) {
   try {
-    const sessionId = (req.session as any).sessionId;
-    req.session.destroy(async err => {
-      if (err) throw err;
-      await signOut(sessionId);
-      res.clearCookie('connect.sid');
-      res.clearCookie('cauldrons-session');
-      res.status(204).send();
-    });
+    const session = await getRequestSession(req);
+    if (session)
+      req.session.destroy(async err => {
+        if (err) throw err;
+        await signOutSession(session);
+        res.clearCookie('connect.sid');
+        res.clearCookie('cauldrons-session');
+        res.status(204).send();
+      });
   } catch (error) {
     next(error);
   }

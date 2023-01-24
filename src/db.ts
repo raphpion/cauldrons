@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv';
 
 import Session from './models/session.model';
 import User from './models/user.model';
+import Role from './models/role.model';
 
 dotenv.config();
 
@@ -16,9 +17,9 @@ const db = new DataSource({
   database: process.env.POSTGRES_DB,
   synchronize: true,
   logging: false,
-  entities: [Session, User],
+  entities: [Role, Session, User],
   subscribers: [],
-  migrations: [],
+  migrations: ['./migrations/**/*{.ts,.js}'],
 });
 
 export default db;

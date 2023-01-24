@@ -1,4 +1,5 @@
-import { Column, Entity, Generated, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import User from './user.model';
 
 @Entity()
 export default class Session {
@@ -9,8 +10,9 @@ export default class Session {
   @Generated('uuid')
   sessionId: string;
 
-  @Column()
-  userId: string;
+  @ManyToOne(() => User, user => user.sessions, { eager: true })
+  @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
+  user: User;
 
   @Column()
   isPersistent: boolean;
@@ -26,9 +28,5 @@ export default class Session {
 
   isActive() {
     return this.signedOutAt !== undefined;
-  }
-
-  signOut() {
-    this.signedOutAt = new Date();
   }
 }
