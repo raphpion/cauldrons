@@ -50,14 +50,16 @@ db.initialize()
     app.listen(port, () => {
       console.log('\nWelcome to Cauldrons API!');
 
-      console.log('\nActive services:');
-      console.table([
-        { name: 'API', url: `http://localhost:${port}` },
-        { name: 'Postgres', url: `http://${process.env.POSTGRES_URL}:${process.env.POSTGRES_PORT}` },
-      ]);
+      if (app.get('env') === 'development') {
+        console.log('\nActive services:');
+        console.table([
+          { name: 'API', url: `http://localhost:${port}` },
+          { name: 'Postgres', url: `http://${process.env.POSTGRES_URL}:${process.env.POSTGRES_PORT}` },
+        ]);
+      }
     });
   })
   .catch(err => {
-    console.error('Could not connect to Postgres Database! Did you forget to docker-compose?');
+    console.error('Could not connect to Postgres database.');
     console.error(err);
   });
