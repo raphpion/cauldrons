@@ -9,7 +9,7 @@ export default class Role {
   @Generated('uuid')
   roleId: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, length: 64 })
   code: RoleCodes;
 }
 
