@@ -30,7 +30,7 @@ export async function handleCreateUser(req: CauldronRequest, res: Response, next
     const manager = req.data.user!;
     const passwordHash = await hash(password, 10);
     const user = await createUser(manager, username, email, passwordHash);
-    res.status(200).json(user.getUserInfo());
+    res.setHeader('Location', `/users/${user.userId}`);
   } catch (error) {
     next(error);
   }
@@ -40,8 +40,9 @@ export async function handleUpdateUser(req: CauldronRequest, res: Response, next
   try {
     const payload = req.body;
     const manager = req.data.user!;
-    await updateUser(req.params.userId, payload, manager);
-    res.status(204).send();
+    const user = await updateUser(req.params.userId, payload, manager);
+    const userInfo = await user.getUserInfo();
+    res.status(200).json(userInfo);
   } catch (error) {
     next(error);
   }

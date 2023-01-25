@@ -27,10 +27,10 @@ export async function getAllProfiles(): Promise<UserProfile[]> {
   return db.getRepository(UserProfile).find();
 }
 
-export async function updateUserProfile(user: User, payload: IUpdateProfilePayload, manager?: User) {
+export async function updateUserProfile(user: User, payload: IUpdateProfilePayload, manager?: User): Promise<UserProfile> {
   const profile = await user.profile;
   if (profile === null) throw new CauldronError(`Profile of User ${user.username} could not be found`, CauldronErrorCodes.NOT_FOUND);
   profile.updatedBy = manager !== undefined ? Promise.resolve(manager) : Promise.resolve(user);
   db.getRepository(UserProfile).merge(profile, payload);
-  await db.getRepository(UserProfile).save(profile);
+  return db.getRepository(UserProfile).save(profile);
 }

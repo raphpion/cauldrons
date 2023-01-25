@@ -13,7 +13,7 @@ export async function handleCreateMyProfile(req: CauldronRequest, res: Response,
 
     const { avatarUrl, bio } = req.body;
     await createUserProfile(user, avatarUrl, bio);
-    res.status(204).send();
+    res.setHeader('Location', '/account/profile').status(201).send();
   } catch (error) {
     next(error);
   }
@@ -45,8 +45,9 @@ export async function handleUpdateMyProfile(req: CauldronRequest, res: Response,
   try {
     const { user } = req.data;
     const payload = req.body;
-    await updateUserProfile(user, payload);
-    res.status(204).send();
+    const profile = await updateUserProfile(user, payload);
+    const publicProfile = await profile.getPublicProfile();
+    res.status(200).json(publicProfile);
   } catch (error) {
     next(error);
   }
