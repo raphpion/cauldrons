@@ -30,7 +30,13 @@ export default class User {
   email: string;
 
   @Column({ unique: true })
+  emailNormalized: string;
+
+  @Column({ unique: true })
   username: string;
+
+  @Column({ unique: true })
+  usernameNormalized: string;
 
   @Column()
   passwordHash: string;
