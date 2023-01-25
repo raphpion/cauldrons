@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express';
 import CauldronError, { CauldronErrorCodes } from '../models/error.model';
 import { CauldronRequest } from '../models/request.model';
-import { getUserById, getUserByUsername } from '../services/user.service';
+import { getUserByUsername } from '../services/user.service';
 import { createUserProfile, deleteUserProfile, getAllProfiles, updateUserProfile } from '../services/userProfile.service';
 
 export async function handleCreateProfile(req: CauldronRequest, res: Response, next: NextFunction) {
@@ -17,7 +17,7 @@ export async function handleCreateProfile(req: CauldronRequest, res: Response, n
     if (currentProfile !== null) throw new CauldronError(`User ${username} already has a profile`, CauldronErrorCodes.PROFILE_ALREADY_EXISTS);
 
     await createUserProfile(user, avatarUrl, bio, manager);
-    res.sendStatus(204);
+    res.setHeader('Location', `/profiles/${username}`).status(201).send();
   } catch (error) {
     next(error);
   }
@@ -68,8 +68,9 @@ export async function handleUpdateProfile(req: CauldronRequest, res: Response, n
     const manager = req.data.user!;
     const payload = req.body;
     const user = await getUserByUsername(username);
-    await updateUserProfile(user, payload, manager);
-    res.sendStatus(204);
+    const profile = await updateUserProfile(user, payload, manager);
+    const publicProfile = await profile.getPublicProfile();
+    res.status(200).json(publicProfile);
   } catch (error) {
     next(error);
   }

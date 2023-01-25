@@ -32,7 +32,7 @@ export async function handleCreateSession(req: CauldronRequest, res: Response, n
       });
     }
 
-    res.status(204).send();
+    res.sendStatus(204);
   } catch (error) {
     next(error);
   }
@@ -47,7 +47,7 @@ export async function handleSignOut(req: CauldronRequest, res: Response, next: N
         await signOutSession(session);
         res.clearCookie('connect.sid');
         res.clearCookie('cauldrons-session');
-        res.status(204).send();
+        res.sendStatus(204);
       });
   } catch (error) {
     next(error);
