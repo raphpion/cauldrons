@@ -21,14 +21,14 @@ export default class UserProfile {
   @JoinColumn({ name: 'createdBy' })
   createdBy: Promise<User>;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamp' })
   createdOn: Date;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'updatedBy' })
   updatedBy?: Promise<User>;
 
-  @UpdateDateColumn({ nullable: true })
+  @UpdateDateColumn({ nullable: true, type: 'timestamp' })
   updatedOn?: Date;
 
   async getPublicProfile(): Promise<IUserProfile> {

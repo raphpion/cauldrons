@@ -42,14 +42,14 @@ export default class User {
   @JoinColumn({ name: 'createdBy' })
   createdBy: Promise<User>;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamp' })
   createdOn: Date;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'updatedBy' })
   updatedBy?: Promise<User>;
 
-  @UpdateDateColumn({ nullable: true })
+  @UpdateDateColumn({ nullable: true, type: 'timestamp' })
   updatedOn?: Date;
 
   @OneToOne(() => UserProfile, profile => profile.user, { nullable: true })

@@ -8,7 +8,6 @@ export async function createUserProfile(user: User, avatarUrl: string, bio: stri
   const profile = db.getRepository(UserProfile).create({
     avatarUrl,
     bio,
-    createdOn: new Date(),
   });
 
   profile.user = Promise.resolve(user);

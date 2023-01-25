@@ -30,7 +30,6 @@ export async function createUser(manager: User, username: string, email: string,
     email,
     passwordHash,
     confirmed: false,
-    createdOn: new Date(),
   });
 
   user.createdBy = Promise.resolve(manager);
@@ -43,7 +42,6 @@ export async function createUserWithCredentials(username: string, email: string,
     email,
     passwordHash,
     confirmed: false,
-    createdOn: new Date(),
   });
 
   user.createdBy = Promise.resolve(user);
