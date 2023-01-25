@@ -1,4 +1,4 @@
-import express, { NextFunction, Response } from 'express';
+import express, { Response } from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import * as dotenv from 'dotenv';
@@ -8,6 +8,8 @@ import db from './db';
 
 import accountRoute from './routes/account.route';
 import userRoute from './routes/user.route';
+import profileRoute from './routes/profile.route';
+
 import { CauldronRequest } from './models/request.model';
 
 dotenv.config();
@@ -40,6 +42,7 @@ app.get('/', (req: CauldronRequest, res: Response) => {
 });
 
 app.use('/account', accountRoute);
+app.use('/profiles', profileRoute);
 app.use('/users', userRoute);
 
 db.initialize()

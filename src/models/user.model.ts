@@ -1,4 +1,3 @@
-import Session from './session.model';
 import {
   Column,
   CreateDateColumn,
@@ -9,10 +8,14 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
 import Role from './role.model';
+import Session from './session.model';
+import UserProfile from './userProfile.model';
 
 @Entity()
 export default class User {
@@ -39,15 +42,18 @@ export default class User {
   @JoinColumn({ name: 'createdBy' })
   createdBy: Promise<User>;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamp' })
   createdOn: Date;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'updatedBy' })
   updatedBy?: Promise<User>;
 
-  @UpdateDateColumn({ nullable: true })
+  @UpdateDateColumn({ nullable: true, type: 'timestamp' })
   updatedOn?: Date;
+
+  @OneToOne(() => UserProfile, profile => profile.user, { nullable: true })
+  profile?: Promise<UserProfile>;
 
   @OneToMany(() => Session, session => session.user)
   sessions: Session[];

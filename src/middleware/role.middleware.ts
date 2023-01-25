@@ -4,7 +4,7 @@ import CauldronError, { CauldronErrorCodes } from '../models/error.model';
 import { CauldronRequest } from '../models/request.model';
 import { RoleCodes } from '../models/role.model';
 
-export function requesterHasRole(code: RoleCodes) {
+export function hasRole(code: RoleCodes) {
   return async (req: CauldronRequest, res: Response, next: NextFunction) => {
     try {
       const session = await getRequestSession(req);

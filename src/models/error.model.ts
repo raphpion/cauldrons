@@ -12,6 +12,9 @@ export enum CauldronErrorCodes {
   USERNAME_ALREADY_TAKEN = 'auth/username-already-taken',
   INVALID_CREDENTIALS = 'auth/invalid-credentials',
 
+  // Profile
+  PROFILE_ALREADY_EXISTS = 'profile/already-exists',
+
   // General
   INTERNAL = 'internal',
   INVALID_PARAMETER = 'invalid-parameter',
@@ -26,6 +29,9 @@ export const CauldronErrorStatus = {
   'auth/email-already-taken': 409,
   'auth/username-already-taken': 409,
   'auth/invalid-credentials': 401,
+
+  // Profile
+  'profile/already-exists': 409,
 
   // General
   internal: 500,
