@@ -8,7 +8,7 @@ interface IUpdateUserPayload {
 interface IUpdateUserPayloadParsed {}
 
 export const createUserSchema = Joi.object({
-  username: Joi.string().min(3).alphanum(),
+  username: Joi.string().min(3).alphanum().required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
 });

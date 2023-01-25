@@ -11,13 +11,13 @@ export const updateMyProfileSchema = Joi.object({
 });
 
 export const signUpSchema = Joi.object({
-  username: Joi.string().min(3).alphanum(),
+  username: Joi.string().min(3).alphanum().required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
 });
 
 export const signInSchema = Joi.object({
-  username: Joi.string().min(3).alphanum(),
+  username: Joi.string().min(3).alphanum().required(),
   password: Joi.string().required(),
   persist: Joi.boolean().required(),
 });
