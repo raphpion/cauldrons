@@ -11,7 +11,7 @@ export async function getAllUsers(): Promise<User[]> {
 }
 
 export async function getUserByEmail(email: string): Promise<User | null> {
-  return db.getRepository(User).findOneBy({ email });
+  return db.getRepository(User).findOneBy({ emailNormalized: email });
 }
 
 export async function getUserById(userId: string): Promise<User | null> {
@@ -19,7 +19,7 @@ export async function getUserById(userId: string): Promise<User | null> {
 }
 
 export async function getUserByUsername(username: string): Promise<User | null> {
-  return db.getRepository(User).findOneBy({ username });
+  return db.getRepository(User).findOneBy({ usernameNormalized: username });
 }
 
 export async function createUser(manager: User, username: string, email: string, password: string): Promise<User | null> {
@@ -27,7 +27,9 @@ export async function createUser(manager: User, username: string, email: string,
 
   const user = db.getRepository(User).create({
     username,
+    usernameNormalized: username.toLowerCase(),
     email,
+    emailNormalized: email.toLowerCase(),
     passwordHash,
     confirmed: false,
   });
@@ -39,7 +41,9 @@ export async function createUser(manager: User, username: string, email: string,
 export async function createUserWithCredentials(username: string, email: string, passwordHash: string): Promise<User | null> {
   const user = db.getRepository(User).create({
     username,
+    usernameNormalized: username.toLowerCase(),
     email,
+    emailNormalized: email.toLowerCase(),
     passwordHash,
     confirmed: false,
   });
