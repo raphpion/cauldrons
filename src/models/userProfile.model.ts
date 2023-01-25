@@ -14,7 +14,7 @@ export default class UserProfile {
   @Column({ length: 2048, nullable: true })
   avatarUrl?: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ length: 256, nullable: true })
   bio?: string;
 
   @ManyToOne(() => User)

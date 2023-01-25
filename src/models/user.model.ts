@@ -26,19 +26,19 @@ export default class User {
   @Generated('uuid')
   readonly userId: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, length: 256 })
   email: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, length: 256 })
   emailNormalized: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, length: 32 })
   username: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, length: 32 })
   usernameNormalized: string;
 
-  @Column()
+  @Column({ length: 64 })
   passwordHash: string;
 
   @Column()

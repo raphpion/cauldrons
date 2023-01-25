@@ -1,5 +1,4 @@
 import { compare } from 'bcryptjs';
-import CauldronError, { CauldronErrorCodes } from '../models/error.model';
 import { CauldronRequest } from '../models/request.model';
 import { getSessionById } from '../services/session.service';
 
@@ -14,6 +13,7 @@ export async function getRequestSession(req: CauldronRequest) {
     const key = parsedCookie.key;
 
     const session = await getSessionById(sessionId);
+    if (session === null) return null;
     if (key === undefined || !compare(key, session.keyHash)) return null;
     (req.session as any).sessionId = session.sessionId;
     return session;

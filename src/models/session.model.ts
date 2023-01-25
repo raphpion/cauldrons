@@ -17,10 +17,10 @@ export default class Session {
   @Column()
   isPersistent: boolean;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 256 })
   keyHash?: string;
 
-  @Column()
+  @Column({ length: 64 })
   ipAddress: string;
 
   @Column({ nullable: true })
