@@ -1,6 +1,6 @@
 import User from '../models/user.model';
 import { hash } from 'bcryptjs';
-import { IUpdateUserPayloadParsed, IUpdateUserPayload } from '../schemas/user.schema';
+import { IUpdateUserPayload } from '../schemas/user.schema';
 import CauldronError, { CauldronErrorCodes } from '../models/error.model';
 import db from '../db';
 import { getRoleByCode } from './role.service';
