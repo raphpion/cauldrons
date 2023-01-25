@@ -26,10 +26,7 @@ export async function handleGetUserById(req: CauldronRequest, res: Response, nex
 
 export async function handleCreateUser(req: CauldronRequest, res: Response, next: NextFunction) {
   try {
-    let { username, email, password } = req.body;
-    email = email.trim().toLowerCase();
-    username = username.trim().toLowerCase();
-
+    const { username, email, password } = req.body;
     const manager = req.data.user!;
     const passwordHash = await hash(password, 10);
     const user = await createUser(manager, username, email, passwordHash);
