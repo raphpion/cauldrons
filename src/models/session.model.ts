@@ -1,4 +1,4 @@
-import { Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, CreateDateColumn, Entity, Generated, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import User from './user.model';
 
 @Entity()
@@ -17,6 +17,9 @@ export default class Session {
   @Column()
   isPersistent: boolean;
 
+  @Column({ type: 'timestamp' })
+  expiresAt: Date;
+
   @Column({ nullable: true, length: 256 })
   keyHash?: string;
 
@@ -26,7 +29,13 @@ export default class Session {
   @Column({ nullable: true })
   signedOutAt?: Date;
 
+  @CreateDateColumn({ type: 'timestamp' })
+  createdOn: Date;
+
+  @UpdateDateColumn({ nullable: true, type: 'timestamp' })
+  updatedOn?: Date;
+
   isActive() {
-    return this.signedOutAt !== undefined;
+    return !(this.signedOutAt || this.expiresAt.valueOf() <= Date.now().valueOf());
   }
 }

@@ -11,6 +11,7 @@ export async function createSession(user: User, ipAddress: string, key?: string)
   const keyHash = key !== undefined ? await hash(key, 10) : undefined;
   const session = db.getRepository(Session).create({
     ...(key !== undefined ? { isPersistent: true, keyHash } : { isPersistent: false }),
+    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     ipAddress,
   });
   session.user = user;
