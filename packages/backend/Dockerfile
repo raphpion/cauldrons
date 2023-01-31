@@ -1,23 +1,17 @@
 # Use an official Node.js runtime as the base image
-FROM node:14-alpine
+FROM node:14
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+# Set the working directory in the container to /app
+WORKDIR /app
 
-# Copy package.json and yarn.lock files
-COPY package*.json ./
+# Copy the package.json and yarn.lock files to the container
+COPY packages/backend/package*.json ./
 
-# Install production dependencies
-RUN yarn install --production
+# Install the dependencies in the container
+RUN yarn install
 
-# Copy the rest of the application files
-COPY . .
+# Copy the rest of the files to the container
+COPY packages/backend .
 
-# Build the application
-RUN yarn build
-
-# Expose the port that the application will run on
-EXPOSE 5000
-
-# Start the application
+# Specify the command to run when the container starts
 CMD ["yarn", "start"]
