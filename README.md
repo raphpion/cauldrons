@@ -6,6 +6,8 @@ Cauldrons is a social platform that connects users by grouping them into dynamic
 
 Before you begin, make sure you are running Node.js version 14 and you have Yarn installed globally. You will also need Docker installed and enabled on your machine. Then, install the dependencies for all the packages by running `yarn install`.
 
+Then, you will need to set the environment variables by renaming the `*.env.example` files to `*.env` and filling out their values in each subfolders of `/packages`, as well as in the `/docker` folder.
+
 To develop locally, first run `yarn compose:local` to start the images. Then, start the packages you want to work on by running `yarn dev:PACKAGE_NAME`. Here is a list of available packages and their dependencies :
 
 - `backend` (standalone)
