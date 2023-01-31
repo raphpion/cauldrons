@@ -1,7 +1,8 @@
 import { NextFunction, Response } from 'express';
-import CauldronError, { CauldronErrorCodes } from '../models/error.model';
-import { CauldronRequest } from '../models/request.model';
-import { getUserByEmail, getUserByUsername } from '../services/user.service';
+
+import CauldronError, { CauldronErrorCodes } from '~/models/error.model';
+import { CauldronRequest } from '~/models/request.model';
+import { getUserByEmail, getUserByUsername } from '~/services/user.service';
 
 export async function emailAndUsernameAvailable(req: CauldronRequest, res: Response, next: NextFunction) {
   try {

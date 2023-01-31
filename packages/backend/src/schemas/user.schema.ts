@@ -1,5 +1,6 @@
 import Joi from 'joi';
-import { RoleCodes } from '../models/role.model';
+
+import { RoleCodes } from '@cauldrons/models';
 
 interface IUpdateUserPayload {
   roles?: RoleCodes[];

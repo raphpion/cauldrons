@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, CreateDateColumn, Entity, Generated, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Generated, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import User from './user.model';
 
 @Entity()
@@ -8,7 +8,7 @@ export default class Session {
 
   @Column({ unique: true })
   @Generated('uuid')
-  sessionId: string;
+  readonly sessionId: string;
 
   @ManyToOne(() => User, user => user.sessions, { eager: true })
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })

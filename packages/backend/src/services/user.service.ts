@@ -1,10 +1,11 @@
-import User from '../models/user.model';
 import { hash } from 'bcryptjs';
-import { IUpdateUserPayload } from '../schemas/user.schema';
-import CauldronError, { CauldronErrorCodes } from '../models/error.model';
-import db from '../db';
+
+import db from '~/db';
+import CauldronError, { CauldronErrorCodes } from '~/models/error.model';
+import Role from '~/models/role.model';
+import User from '~/models/user.model';
+import { IUpdateUserPayload } from '~/schemas/user.schema';
 import { getRoleByCode } from './role.service';
-import Role from '../models/role.model';
 
 export async function getAllUsers(): Promise<User[]> {
   return db.getRepository(User).find();

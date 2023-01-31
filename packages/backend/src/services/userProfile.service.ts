@@ -1,8 +1,8 @@
-import db from '../db';
-import CauldronError, { CauldronErrorCodes } from '../models/error.model';
-import User from '../models/user.model';
-import UserProfile from '../models/userProfile.model';
-import { IUpdateProfilePayload } from '../schemas/userProfile.schema';
+import db from '~/db';
+import CauldronError, { CauldronErrorCodes } from '~/models/error.model';
+import User from '~/models/user.model';
+import UserProfile from '~/models/userProfile.model';
+import { IUpdateProfilePayload } from '~/schemas/userProfile.schema';
 
 export async function createUserProfile(user: User, avatarUrl: string, bio: string, manager?: User): Promise<UserProfile> {
   const profile = db.getRepository(UserProfile).create({

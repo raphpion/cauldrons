@@ -1,8 +1,10 @@
 import { NextFunction, Response } from 'express';
-import { getRequestSession } from '../helpers/session.helper';
-import CauldronError, { CauldronErrorCodes } from '../models/error.model';
-import { CauldronRequest } from '../models/request.model';
-import { RoleCodes } from '../models/role.model';
+
+import { RoleCodes } from '@cauldrons/models';
+
+import { getRequestSession } from '~/helpers/session.helper';
+import CauldronError, { CauldronErrorCodes } from '~/models/error.model';
+import { CauldronRequest } from '~/models/request.model';
 
 export function hasRole(code: RoleCodes) {
   return async (req: CauldronRequest, res: Response, next: NextFunction) => {

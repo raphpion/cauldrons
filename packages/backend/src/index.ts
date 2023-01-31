@@ -1,16 +1,15 @@
-import express, { Response } from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import * as dotenv from 'dotenv';
+import express, { Response } from 'express';
 import session from 'express-session';
 
-import db from './db';
+import db from '~/db';
 
-import accountRoute from './routes/account.route';
-import userRoute from './routes/user.route';
-import profileRoute from './routes/profile.route';
-
-import { CauldronRequest } from './models/request.model';
+import { CauldronRequest } from '~/models/request.model';
+import accountRoute from '~/routes/account.route';
+import profileRoute from '~/routes/profile.route';
+import userRoute from '~/routes/user.route';
 
 dotenv.config();
 

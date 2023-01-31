@@ -13,6 +13,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+import { IUser } from '@cauldrons/models';
+
 import Role from './role.model';
 import Session from './session.model';
 import UserProfile from './userProfile.model';
@@ -72,7 +74,7 @@ export default class User {
   })
   roles: Promise<Role[]>;
 
-  async getUserInfo(): Promise<IUserInfo> {
+  async getUserInfo(): Promise<IUser> {
     const [createdBy, updatedBy] = await Promise.all([this.createdBy, this.updatedBy]);
 
     return {
@@ -87,16 +89,3 @@ export default class User {
     };
   }
 }
-
-interface IUserInfo {
-  userId: string;
-  email: string;
-  username: string;
-  confirmed: boolean;
-  createdBy: string;
-  createdOn: Date;
-  updatedBy?: string;
-  updatedOn?: Date;
-}
-
-export type { IUserInfo };

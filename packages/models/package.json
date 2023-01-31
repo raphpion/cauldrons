@@ -1,0 +1,8 @@
+{
+  "name": "@cauldrons/models",
+  "version": "0.0.1",
+  "description": "Data models for the Cauldrons web infrastructure.",
+  "author": "Raphaël Pion <raph.pion@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
