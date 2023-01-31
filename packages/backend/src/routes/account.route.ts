@@ -1,4 +1,5 @@
 import express from 'express';
+
 import {
   handleCreateMyProfile,
   handleGetMyProfile,
@@ -6,13 +7,13 @@ import {
   handleSignIn,
   handleSignUp,
   handleDeleteMyProfile,
-} from '../handlers/account.handler';
-import { handleCreateSession, handleSignOut } from '../handlers/session.handler';
-import { errorHandler } from '../middleware/error.middleware';
-import { isSignedIn } from '../middleware/session.middleware';
-import { emailAndUsernameAvailable } from '../middleware/user.middleware';
-import { validate } from '../middleware/validation.middleware';
-import { createMyProfileSchema, signInSchema, signUpSchema, updateMyProfileSchema } from '../schemas/account.schema';
+} from '~/handlers/account.handler';
+import { handleCreateSession, handleSignOut } from '~/handlers/session.handler';
+import { errorHandler } from '~/middleware/error.middleware';
+import { isSignedIn } from '~/middleware/session.middleware';
+import { emailAndUsernameAvailable } from '~/middleware/user.middleware';
+import { validate } from '~/middleware/validation.middleware';
+import { createMyProfileSchema, signInSchema, signUpSchema, updateMyProfileSchema } from '~/schemas/account.schema';
 
 const router = express.Router();
 

@@ -1,6 +1,6 @@
-import { DataSource } from 'typeorm';
-import 'reflect-metadata';
 import * as dotenv from 'dotenv';
+import 'reflect-metadata';
+import { DataSource } from 'typeorm';
 
 import Session from './models/session.model';
 import User from './models/user.model';

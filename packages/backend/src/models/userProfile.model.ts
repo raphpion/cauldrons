@@ -1,5 +1,7 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
+import { IUserPublicProfile } from '@cauldrons/models/UserProfile';
+
 import User from './user.model';
 
 @Entity()
@@ -31,7 +33,7 @@ export default class UserProfile {
   @UpdateDateColumn({ nullable: true, type: 'timestamp' })
   updatedOn?: Date;
 
-  async getPublicProfile(): Promise<IUserProfile> {
+  async getPublicProfile(): Promise<IUserPublicProfile> {
     const user = await this.user;
     return {
       username: user.username,
@@ -40,11 +42,3 @@ export default class UserProfile {
     };
   }
 }
-
-interface IUserProfile {
-  username: string;
-  avatarUrl: string;
-  bio: string;
-}
-
-export type { IUserProfile };

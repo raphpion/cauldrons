@@ -1,7 +1,8 @@
 import { hash } from 'bcryptjs';
-import db from '../db';
-import Session from '../models/session.model';
-import User from '../models/user.model';
+
+import db from '~/db';
+import Session from '~/models/session.model';
+import User from '~/models/user.model';
 
 export async function getSessionById(sessionId: string): Promise<Session | null> {
   return db.getRepository(Session).findOneBy({ sessionId });

@@ -1,9 +1,10 @@
 import { compare, hash } from 'bcryptjs';
 import { NextFunction, Response } from 'express';
-import CauldronError, { CauldronErrorCodes } from '../models/error.model';
-import { CauldronRequest } from '../models/request.model';
-import { createUserWithCredentials, getUserByUsername } from '../services/user.service';
-import { createUserProfile, deleteUserProfile, updateUserProfile } from '../services/userProfile.service';
+
+import CauldronError, { CauldronErrorCodes } from '~/models/error.model';
+import { CauldronRequest } from '~/models/request.model';
+import { createUserWithCredentials, getUserByUsername } from '~/services/user.service';
+import { createUserProfile, deleteUserProfile, updateUserProfile } from '~/services/userProfile.service';
 
 export async function handleCreateMyProfile(req: CauldronRequest, res: Response, next: NextFunction) {
   try {

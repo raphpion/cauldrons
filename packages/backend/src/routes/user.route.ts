@@ -1,11 +1,13 @@
 import express from 'express';
-import { handleCreateUser, handleDeleteUser, handleGetUserById, handleGetUsers, handleUpdateUser } from '../handlers/user.handler';
-import { errorHandler } from '../middleware/error.middleware';
-import { hasRole } from '../middleware/role.middleware';
-import { emailAndUsernameAvailable } from '../middleware/user.middleware';
-import { validate } from '../middleware/validation.middleware';
-import { RoleCodes } from '../models/role.model';
-import { createUserSchema, updateUserSchema } from '../schemas/user.schema';
+
+import { RoleCodes } from '@cauldrons/models';
+
+import { handleCreateUser, handleDeleteUser, handleGetUserById, handleGetUsers, handleUpdateUser } from '~/handlers/user.handler';
+import { errorHandler } from '~/middleware/error.middleware';
+import { hasRole } from '~/middleware/role.middleware';
+import { emailAndUsernameAvailable } from '~/middleware/user.middleware';
+import { validate } from '~/middleware/validation.middleware';
+import { createUserSchema, updateUserSchema } from '~/schemas/user.schema';
 
 const router = express.Router();
 

@@ -1,8 +1,9 @@
 import { hash } from 'bcryptjs';
 import { Response, NextFunction } from 'express';
-import CauldronError, { CauldronErrorCodes } from '../models/error.model';
-import { CauldronRequest } from '../models/request.model';
-import { createUser, deleteUser, getAllUsers, getUserById, updateUser } from '../services/user.service';
+
+import CauldronError, { CauldronErrorCodes } from '~/models/error.model';
+import { CauldronRequest } from '~/models/request.model';
+import { createUser, deleteUser, getAllUsers, getUserById, updateUser } from '~/services/user.service';
 
 export async function handleGetUsers(req: CauldronRequest, res: Response, next: NextFunction) {
   try {

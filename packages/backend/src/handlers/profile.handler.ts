@@ -1,8 +1,9 @@
 import { NextFunction, Response } from 'express';
-import CauldronError, { CauldronErrorCodes } from '../models/error.model';
-import { CauldronRequest } from '../models/request.model';
-import { getUserByUsername } from '../services/user.service';
-import { createUserProfile, deleteUserProfile, getAllProfiles, updateUserProfile } from '../services/userProfile.service';
+
+import CauldronError, { CauldronErrorCodes } from '~/models/error.model';
+import { CauldronRequest } from '~/models/request.model';
+import { getUserByUsername } from '~/services/user.service';
+import { createUserProfile, deleteUserProfile, getAllProfiles, updateUserProfile } from '~/services/userProfile.service';
 
 export async function handleCreateProfile(req: CauldronRequest, res: Response, next: NextFunction) {
   try {

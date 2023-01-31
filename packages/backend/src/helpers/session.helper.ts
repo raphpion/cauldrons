@@ -1,6 +1,7 @@
 import { compare } from 'bcryptjs';
-import { CauldronRequest } from '../models/request.model';
-import { getSessionById } from '../services/session.service';
+
+import { CauldronRequest } from '~/models/request.model';
+import { getSessionById } from '~/services/session.service';
 
 export async function getRequestSession(req: CauldronRequest) {
   let sessionId = (req.session as any).sessionId || undefined;

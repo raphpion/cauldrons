@@ -1,9 +1,10 @@
 import { randomBytes } from 'crypto';
 import { NextFunction, Response } from 'express';
-import { getRequestSession } from '../helpers/session.helper';
-import CauldronError, { CauldronErrorCodes } from '../models/error.model';
-import { CauldronRequest } from '../models/request.model';
-import { createSession, signOutSession } from '../services/session.service';
+
+import { getRequestSession } from '~/helpers/session.helper';
+import CauldronError, { CauldronErrorCodes } from '~/models/error.model';
+import { CauldronRequest } from '~/models/request.model';
+import { createSession, signOutSession } from '~/services/session.service';
 
 export async function handleCreateSession(req: CauldronRequest, res: Response, next: NextFunction) {
   try {

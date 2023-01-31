@@ -1,20 +1,15 @@
 import { Column, Entity, Generated, PrimaryGeneratedColumn } from 'typeorm';
+import { RoleCodes } from '@cauldrons/models/Role';
 
 @Entity()
 export default class Role {
   @PrimaryGeneratedColumn()
-  id: number;
+  readonly id: number;
 
   @Column({ unique: true, type: 'uuid' })
   @Generated('uuid')
-  roleId: string;
+  readonly roleId: string;
 
   @Column({ unique: true, length: 64 })
   code: RoleCodes;
-}
-
-export enum RoleCodes {
-  SUPER_USER = 'super-user',
-  USER_MANAGEMENT = 'user-management',
-  PROFILE_MANAGEMENT = 'profile-management',
 }
