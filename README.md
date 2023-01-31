@@ -12,8 +12,6 @@ To develop locally, first run `yarn compose:local` to start the images. Then, st
 
 - `backend` (standalone)
 
-- `content` (standalone)
-
 - `admin` (requires `backend`)
 
 - `frontend` (requires `backend` and `content`)
@@ -22,11 +20,9 @@ To develop locally, first run `yarn compose:local` to start the images. Then, st
 
 Cauldrons' infrastructure is composed of multiple projects:
 
-- [admin](./packages/admin/README.md): a Next.js user interface to manage the application's data.
+- [admin](./packages/admin/README.md): a Next.js user interface to manage the application's data and content.
 
 - [backend](./packages/backend/README.md): an Express REST api to connect the different projects together and manage their data with the database.
-
-- [content](./packages/content/README.md): a Strapi CMS project to manage static content on the frontend project.
 
 - [frontend](./packages/frontend/README.md): a Next.js application that contains the website and the client app.
 
