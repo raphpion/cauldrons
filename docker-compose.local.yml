@@ -5,7 +5,7 @@ services:
     ports:
       - 5001:5432
     env_file:
-      - .postgres.env
+      - .postgres.local.env
     volumes:
       - pgdata:/var/lib/postgresql/data
 volumes:

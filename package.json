@@ -1,33 +1,12 @@
 {
-  "name": "cauldrons-api",
-  "version": "0.0.1",
-  "description": "Express.js REST API for the Cauldrons infrastructure.",
-  "author": "Raphaël Pion <raph.pion@gmail.com>",
-  "license": "MIT",
+  "private": true,
   "scripts": {
-    "start": "node dist/index.js",
-    "build": "tsc",
-    "dev": "nodemon"
+    "compose:local": "docker-compose -f docker-compose.local.yml up",
+    "dev:admin": "cd packages/admin && yarn dev",
+    "dev:backend": "cd packages/backend && yarn dev",
+    "dev:frontend": "cd packages/frontend && yarn dev"
   },
-  "dependencies": {
-    "@types/express-session": "^1.17.5",
-    "bcryptjs": "^2.4.3",
-    "cookie-parser": "^1.4.6",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "express-session": "^1.17.3",
-    "joi": "^17.7.0",
-    "pg": "^8.8.0",
-    "reflect-metadata": "^0.1.13",
-    "ts-node": "^10.9.1",
-    "typeorm": "^0.3.11",
-    "typescript": "^4.9.4"
-  },
-  "devDependencies": {
-    "@types/bcryptjs": "^2.4.2",
-    "@types/cookie-parser": "^1.4.3",
-    "@types/express": "^4.17.15",
-    "@types/node": "^18.11.18",
-    "nodemon": "^2.0.20"
-  }
+  "workspaces": [
+    "packages/*"
+  ]
 }
