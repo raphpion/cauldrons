@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "scripts": {
+    "compose": "docker-compose -f docker/docker-compose.local.yml up",
+    "dev:admin": "cd packages/admin && yarn dev",
+    "dev:backend": "cd packages/backend && yarn dev",
+    "dev:content": "cd packages/content && yarn develop",
+    "dev:frontend": "cd packages/frontend && yarn dev"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
