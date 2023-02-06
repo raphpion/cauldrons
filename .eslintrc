@@ -15,5 +15,8 @@
     "es6": true,
     "node": true
   },
+  "rules": {
+    "curly": "error"
+  },
   "ignorePatterns": ["dist", "node_modules", "examples", "scripts"]
 }
