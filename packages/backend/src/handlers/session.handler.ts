@@ -16,13 +16,15 @@ export async function handleCreateSession(req: CauldronRequest, res: Response, n
 
     const persist = (req.body.persist) || (req.data && req.data.persist);
 
-    const key = persist
-      ? randomBytes(256).toString('hex')
-      : undefined;
+    const key = persist ?
+      randomBytes(256).toString('hex') :
+      undefined;
 
     const session = await createSession(user, req.socket.remoteAddress || "", key);
     (req.session as any).sessionId = session.sessionId;
-    req.session.cookie.maxAge = persist ? 7 * 24 * 60 * 60 * 1000 : undefined;
+    req.session.cookie.maxAge = persist ?
+      7 * 24 * 60 * 60 * 1000 :
+      undefined;
 
     if (persist) {
       res.cookie('cauldrons-session', JSON.stringify({ sessionId: session.sessionId, key }), {

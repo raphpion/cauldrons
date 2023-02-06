@@ -36,7 +36,10 @@ export async function updateUserProfile(user: User, payload: IUpdateProfilePaylo
     throw new CauldronError(`Profile of User ${user.username} could not be found`, CauldronErrorCodes.NOT_FOUND);
   }
   
-  profile.updatedBy = manager !== undefined ? Promise.resolve(manager) : Promise.resolve(user);
+  profile.updatedBy = manager !== undefined ?
+    Promise.resolve(manager) :
+    Promise.resolve(user);
+    
   db.getRepository(UserProfile).merge(profile, payload);
   return db.getRepository(UserProfile).save(profile);
 }

@@ -77,7 +77,9 @@ export async function updateUser(userId: string, payload: IUpdateUserPayload, ma
     user.roles = Promise.resolve(fetchedRoles);
   }
   
-  user.updatedBy = manager !== undefined ? Promise.resolve(manager) : Promise.resolve(user);
+  user.updatedBy = manager !== undefined ?
+    Promise.resolve(manager) :
+    Promise.resolve(user);
 
   db.getRepository(User).merge(user, updates);
   return db.getRepository(User).save(user);
