@@ -7,7 +7,10 @@ import { CauldronRequest } from '~/models/request.model';
 export async function isSignedIn(req: CauldronRequest, res: Response, next: NextFunction) {
   try {
     const session = await getRequestSession(req);
-    if (session === null || !session.isActive()) throw new CauldronError('Unauthorized', CauldronErrorCodes.UNAUTHORIZED);
+    if (session === null || !session.isActive()) {
+      throw new CauldronError('Unauthorized', CauldronErrorCodes.UNAUTHORIZED);
+    }
+    
     req.data = { ...req.data, user: session.user };
     next();
   } catch (error) {

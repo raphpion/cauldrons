@@ -18,7 +18,10 @@ export async function getRequestSession(req: CauldronRequest) {
     const key = parsedCookie.key;
 
     const session = await getSessionById(sessionId);
-    if (session === null) return null;
+    if (session === null) {
+      return null;
+    }
+    
     if (key === undefined || session.keyHash === undefined || !compare(key, session.keyHash!)) {
       return null;
     }

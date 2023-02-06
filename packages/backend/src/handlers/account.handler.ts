@@ -11,7 +11,9 @@ export async function handleCreateMyProfile(req: CauldronRequest, res: Response,
   try {
     const user = getSessionUser(req);
     const currentProfile = await user.profile;
-    if (currentProfile) throw new CauldronError(`User ${user.username} already has a profile!`, CauldronErrorCodes.PROFILE_ALREADY_EXISTS);
+    if (currentProfile) {
+      throw new CauldronError(`User ${user.username} already has a profile!`, CauldronErrorCodes.PROFILE_ALREADY_EXISTS);
+    }
 
     const { avatarUrl, bio } = req.body;
     await createUserProfile(user, avatarUrl, bio);
@@ -77,11 +79,7 @@ export async function handleSignUp(req: CauldronRequest, res: Response, next: Ne
   try {
     const { username, email, password } = req.body;
     const passwordHash = await hash(password, 10);
-    const user = await createUserWithCredentials(username, email, passwordHash);
-    if (!user) {
-      throw new CauldronError('Could not create user', CauldronErrorCodes.UNKNOWN);
-    }
-    
+    const user = await createUserWithCredentials(username, email, passwordHash);    
     req.data = { user, persist: true };
     next();
   } catch (error) {

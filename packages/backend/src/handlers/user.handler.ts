@@ -19,7 +19,10 @@ export async function handleGetUsers(req: CauldronRequest, res: Response, next: 
 export async function handleGetUserById(req: CauldronRequest, res: Response, next: NextFunction) {
   try {
     const user = await getUserById(req.params.userId);
-    if (user === null) throw new CauldronError(`User with ID ${req.params.userId} could not be found`, CauldronErrorCodes.NOT_FOUND);
+    if (user === null) {
+      throw new CauldronError(`User with ID ${req.params.userId} could not be found`, CauldronErrorCodes.NOT_FOUND);
+    }
+    
     res.status(200).json(user.getUserInfo());
   } catch (error) {
     next(error);

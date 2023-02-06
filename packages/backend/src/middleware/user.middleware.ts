@@ -8,9 +8,14 @@ export async function emailAndUsernameAvailable(req: CauldronRequest, res: Respo
   try {
     const { username, email } = req.body;
 
-    if ((await getUserByEmail(email)) !== null) throw new CauldronError(`Email ${email} is already in use`, CauldronErrorCodes.EMAIL_ALREADY_TAKEN);
-    if ((await getUserByUsername(username)) !== null)
-      throw new CauldronError(`Username ${username} is arleady in use`, CauldronErrorCodes.USERNAME_ALREADY_TAKEN);
+    if ((await getUserByEmail(email)) !== null) {
+      throw new CauldronError(`Email ${email} is already in use`, CauldronErrorCodes.EMAIL_ALREADY_TAKEN);
+    }
+
+    if ((await getUserByUsername(username)) !== null) {
+      throw new CauldronError(`Username ${username} is already in use`, CauldronErrorCodes.USERNAME_ALREADY_TAKEN);
+    }
+    
     next();
   } catch (error) {
     next(error);

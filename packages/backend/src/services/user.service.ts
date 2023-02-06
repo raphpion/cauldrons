@@ -56,7 +56,9 @@ export async function createUserWithCredentials(username: string, email: string,
 
 export async function updateUser(userId: string, payload: IUpdateUserPayload, manager?: User): Promise<User> {
   const user = await getUserById(userId);
-  if (user === null) throw new CauldronError(`User with ID ${userId} could not be found`, CauldronErrorCodes.NOT_FOUND);
+  if (user === null) {
+    throw new CauldronError(`User with ID ${userId} could not be found`, CauldronErrorCodes.NOT_FOUND);
+  }
 
   const { roles, ...updates } = payload;
   const fetchedRoles: Role[] = [];
@@ -64,7 +66,9 @@ export async function updateUser(userId: string, payload: IUpdateUserPayload, ma
     try {
       await Promise.all(roles.map(async code => {
         const role = await getRoleByCode(code);
-        if (role) fetchedRoles.push(role);
+        if (role) {
+          fetchedRoles.push(role);
+        }
       }));
     } catch (error) {
       throw error;
@@ -81,6 +85,9 @@ export async function updateUser(userId: string, payload: IUpdateUserPayload, ma
 
 export async function deleteUser(userId: string) {
   const user = await getUserById(userId);
-  if (user === null) throw new CauldronError(`User with ID ${userId} could not be found`, CauldronErrorCodes.NOT_FOUND);
+  if (user === null) {
+    throw new CauldronError(`User with ID ${userId} could not be found`, CauldronErrorCodes.NOT_FOUND);
+  }
+  
   return db.getRepository(User).delete(user.id);
 }

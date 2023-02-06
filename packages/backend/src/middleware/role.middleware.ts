@@ -10,11 +10,14 @@ export function hasRole(code: RoleCodes) {
   return async (req: CauldronRequest, res: Response, next: NextFunction) => {
     try {
       const session = await getRequestSession(req);
-      if (!session || !session.user) throw new CauldronError('Unauthorized', CauldronErrorCodes.UNAUTHORIZED);
+      if (!session || !session.user) {
+        throw new CauldronError('Unauthorized', CauldronErrorCodes.UNAUTHORIZED);
+      }
 
       const roles = await session.user.roles;
-      if (!roles.find(x => x.code === RoleCodes.SUPER_USER || x.code === code))
+      if (!roles.find(x => x.code === RoleCodes.SUPER_USER || x.code === code)) {
         throw new CauldronError('User has insufficient permission', CauldronErrorCodes.FORBIDDEN);
+      }
 
       req.data = { ...req.data, user: session.user };
       next();
