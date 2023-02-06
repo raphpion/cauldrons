@@ -1,12 +1,31 @@
 {
+  "name": "@cauldrons/cauldrons",
   "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
   "scripts": {
     "compose:local": "docker-compose -f docker-compose.local.yml up",
     "dev:admin": "cd packages/admin && yarn dev",
     "dev:backend": "cd packages/backend && yarn dev",
     "dev:frontend": "cd packages/frontend && yarn dev"
   },
-  "workspaces": [
-    "packages/*"
-  ]
+  "devDependencies": {
+    "lerna": "^6.4.1",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@types/node": "^18.11.19",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "@typescript-eslint/parser": "^5.50.0",
+    "eslint": "^8.33.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "prettier": "^2.8.3"
+  }
 }
