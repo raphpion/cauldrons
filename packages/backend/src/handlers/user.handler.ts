@@ -1,5 +1,6 @@
 import { hash } from 'bcryptjs';
 import { Response, NextFunction } from 'express';
+import { getSessionUser } from '~/helpers/session.helper';
 
 import CauldronError, { CauldronErrorCodes } from '~/models/error.model';
 import { CauldronRequest } from '~/models/request.model';
@@ -28,7 +29,7 @@ export async function handleGetUserById(req: CauldronRequest, res: Response, nex
 export async function handleCreateUser(req: CauldronRequest, res: Response, next: NextFunction) {
   try {
     const { username, email, password } = req.body;
-    const manager = req.data.user!;
+    const manager = getSessionUser(req);
     const passwordHash = await hash(password, 10);
     const user = await createUser(manager, username, email, passwordHash);
     res.setHeader('Location', `/users/${user.userId}`);
@@ -40,7 +41,7 @@ export async function handleCreateUser(req: CauldronRequest, res: Response, next
 export async function handleUpdateUser(req: CauldronRequest, res: Response, next: NextFunction) {
   try {
     const payload = req.body;
-    const manager = req.data.user!;
+    const manager = getSessionUser(req);
     const user = await updateUser(req.params.userId, payload, manager);
     const userInfo = await user.getUserInfo();
     res.status(200).json(userInfo);

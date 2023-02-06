@@ -1,5 +1,6 @@
 import { compare, hash } from 'bcryptjs';
 import { NextFunction, Response } from 'express';
+import { getSessionUser } from '~/helpers/session.helper';
 
 import CauldronError, { CauldronErrorCodes } from '~/models/error.model';
 import { CauldronRequest } from '~/models/request.model';
@@ -8,7 +9,7 @@ import { createUserProfile, deleteUserProfile, updateUserProfile } from '~/servi
 
 export async function handleCreateMyProfile(req: CauldronRequest, res: Response, next: NextFunction) {
   try {
-    const { user } = req.data;
+    const user = getSessionUser(req);
     const currentProfile = await user.profile;
     if (currentProfile) throw new CauldronError(`User ${user.username} already has a profile!`, CauldronErrorCodes.PROFILE_ALREADY_EXISTS);
 
@@ -22,7 +23,7 @@ export async function handleCreateMyProfile(req: CauldronRequest, res: Response,
 
 export async function handleDeleteMyProfile(req: CauldronRequest, res: Response, next: NextFunction) {
   try {
-    const { user } = req.data;
+    const user = getSessionUser(req);
     await deleteUserProfile(user);
     res.status(204).send();
   } catch (error) {
@@ -32,9 +33,12 @@ export async function handleDeleteMyProfile(req: CauldronRequest, res: Response,
 
 export async function handleGetMyProfile(req: CauldronRequest, res: Response, next: NextFunction) {
   try {
-    const { user } = req.data;
+    const user = getSessionUser(req);
     const profile = await user.profile;
-    if (profile === null) throw new CauldronError(`Profile of User ${user.username} could not be found`, CauldronErrorCodes.NOT_FOUND);
+    if (profile === undefined) {
+      throw new CauldronError(`Profile of User ${user.username} could not be found`, CauldronErrorCodes.NOT_FOUND);
+    }
+    
     const publicProfile = await profile.getPublicProfile();
     res.status(200).json(publicProfile);
   } catch (error) {
@@ -44,7 +48,7 @@ export async function handleGetMyProfile(req: CauldronRequest, res: Response, ne
 
 export async function handleUpdateMyProfile(req: CauldronRequest, res: Response, next: NextFunction) {
   try {
-    const { user } = req.data;
+    const user = getSessionUser(req);
     const payload = req.body;
     const profile = await updateUserProfile(user, payload);
     const publicProfile = await profile.getPublicProfile();
@@ -58,8 +62,10 @@ export async function handleSignIn(req: CauldronRequest, res: Response, next: Ne
   try {
     const { username, password, persist } = req.body;
     const user = await getUserByUsername(username);
-    if (user === null || !(await compare(password, user.passwordHash)))
+    if (user === null || !(await compare(password, user.passwordHash))) {
       throw new CauldronError('Invalid username or password', CauldronErrorCodes.INVALID_CREDENTIALS);
+    }
+
     req.data = { user, persist };
     next();
   } catch (error) {
@@ -72,6 +78,10 @@ export async function handleSignUp(req: CauldronRequest, res: Response, next: Ne
     const { username, email, password } = req.body;
     const passwordHash = await hash(password, 10);
     const user = await createUserWithCredentials(username, email, passwordHash);
+    if (!user) {
+      throw new CauldronError('Could not create user', CauldronErrorCodes.UNKNOWN);
+    }
+    
     req.data = { user, persist: true };
     next();
   } catch (error) {

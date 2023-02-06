@@ -4,33 +4,33 @@ import User from './user.model';
 @Entity()
 export default class Session {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({ unique: true })
   @Generated('uuid')
-  readonly sessionId: string;
+  readonly sessionId!: string;
 
   @ManyToOne(() => User, user => user.sessions, { eager: true })
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
-  user: User;
+  user!: User;
 
   @Column()
-  isPersistent: boolean;
+  isPersistent!: boolean;
 
   @Column({ type: 'timestamp' })
-  expiresAt: Date;
+  expiresAt!: Date;
 
   @Column({ nullable: true, length: 256 })
   keyHash?: string;
 
   @Column({ length: 64 })
-  ipAddress: string;
+  ipAddress!: string;
 
   @Column({ nullable: true })
   signedOutAt?: Date;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdOn: Date;
+  createdOn!: Date;
 
   @UpdateDateColumn({ nullable: true, type: 'timestamp' })
   updatedOn?: Date;

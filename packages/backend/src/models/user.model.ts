@@ -22,36 +22,36 @@ import UserProfile from './userProfile.model';
 @Entity()
 export default class User {
   @PrimaryGeneratedColumn()
-  readonly id: number;
+  readonly id!: number;
 
   @Column({ unique: true, type: 'uuid' })
   @Generated('uuid')
-  readonly userId: string;
+  readonly userId!: string;
 
   @Column({ unique: true, length: 256 })
-  email: string;
+  email!: string;
 
   @Column({ unique: true, length: 256 })
-  emailNormalized: string;
+  emailNormalized!: string;
 
   @Column({ unique: true, length: 32 })
-  username: string;
+  username!: string;
 
   @Column({ unique: true, length: 32 })
-  usernameNormalized: string;
+  usernameNormalized!: string;
 
   @Column({ length: 64 })
-  passwordHash: string;
+  passwordHash!: string;
 
   @Column()
-  confirmed: boolean;
+  confirmed!: boolean;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'createdBy' })
-  createdBy: Promise<User>;
+  createdBy!: Promise<User>;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdOn: Date;
+  createdOn!: Date;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'updatedBy' })
@@ -64,7 +64,7 @@ export default class User {
   profile?: Promise<UserProfile>;
 
   @OneToMany(() => Session, session => session.user)
-  sessions: Session[];
+  sessions!: Session[];
 
   @ManyToMany(() => Role)
   @JoinTable({
@@ -72,7 +72,7 @@ export default class User {
     joinColumns: [{ name: 'userId', referencedColumnName: 'id' }],
     inverseJoinColumns: [{ name: 'roleId', referencedColumnName: 'id' }],
   })
-  roles: Promise<Role[]>;
+  roles!: Promise<Role[]>;
 
   async getUserInfo(): Promise<IUser> {
     const [createdBy, updatedBy] = await Promise.all([this.createdBy, this.updatedBy]);

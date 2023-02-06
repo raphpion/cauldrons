@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const sess = {
-  secret: process.env.EXPRESS_SESSION_SECRET,
+  secret: process.env.EXPRESS_SESSION_SECRET!,
   resave: false,
   saveUninitialized: true,
   cookie: {

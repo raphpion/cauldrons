@@ -7,11 +7,11 @@ import User from './user.model';
 @Entity()
 export default class UserProfile {
   @PrimaryGeneratedColumn()
-  readonly id: number;
+  readonly id!: number;
 
   @OneToOne(() => User, user => user.profile, { cascade: ['remove', 'update'] })
   @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
-  user: Promise<User>;
+  user!: Promise<User>;
 
   @Column({ length: 2048, nullable: true })
   avatarUrl?: string;
@@ -21,10 +21,10 @@ export default class UserProfile {
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'createdBy' })
-  createdBy: Promise<User>;
+  createdBy!: Promise<User>;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdOn: Date;
+  createdOn!: Date;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'updatedBy' })
